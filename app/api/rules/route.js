@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import Rule from "@/models/Rule";
 import { connectDB } from "@/lib/mongoose";
 
@@ -6,7 +5,7 @@ import { connectDB } from "@/lib/mongoose";
 export async function GET() {
   await connectDB();
   const rules = await Rule.find();
-  return NextResponse.json(rules);
+  return new Response(JSON.stringify(rules));
 }
 
 // POST new rule
@@ -14,5 +13,5 @@ export async function POST(req) {
   await connectDB();
   const { trigger, response } = await req.json();
   const rule = await Rule.create({ trigger, response });
-  return NextResponse.json(rule);
+  return new Response(JSON.stringify(rule));
 }
