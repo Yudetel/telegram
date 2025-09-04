@@ -54,8 +54,10 @@ export async function POST(req) {
 export async function GET() {
   await connectDB();
   const tokens = await Token.find({});
-  if(!tokens) {
-    return new Response(JSON.stringify({ ok: true, [] }), { status: 200 });
+  if (!tokens) {
+    return new Response(JSON.stringify({ ok: true, tokens: [] }), {
+      status: 200,
+    });
   }
   return new Response(JSON.stringify({ ok: true, tokens }), { status: 200 });
 }
