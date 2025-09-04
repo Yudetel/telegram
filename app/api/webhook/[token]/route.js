@@ -1,33 +1,58 @@
-import Rule from "@/models/Rule";
-import TokenModel from "@/models/Token";
+import Token from "@/models/Token";
 import { connectDB } from "@/lib/mongoose";
 
-const TELEGRAM_API = "https://api.telegram.org/bot";
-
-export async function POST(req, { params }) {
+export async function POST(req) {
   await connectDB();
+  const { name, token } = await req.json();
 
-  const tokenEntry = await TokenModel.findOne({ token: params.token });
-  if (!tokenEntry)
+  if (!name || !token)
     return new Response(
-      JSON.stringify({ ok: false, error: "Token not found" }),
-      { status: 404 }
+      JSON.stringify({ ok: false, error: "Missing fields" }),
+      { status: 400 }
     );
 
-  const body = await req.json();
-  const chatId = body.message?.chat?.id;
-  const text = body.message?.text;
-  if (!chatId || !text)
-    return new Response(JSON.stringify({ ok: true }), { status: 200 });
+  const newToken = await Token.create({ name, token });
 
-  const rule = await Rule.findOne({ trigger: text });
-  if (rule) {
-    await fetch(`${TELEGRAM_API}${tokenEntry.token}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, text: rule.response }),
-    });
+  // Встановлення webhook (як ми робили раніше)
+  try {
+    const TELEGRAM_API = "https://api.telegram.org/bot";
+    const domain = process.env.NEXT_PUBLIC_SITE_URL;
+    const res = await fetch(
+      `${TELEGRAM_API}${token}/setWebhook?url=${domain}/api/webhook/${token}`,
+      {
+        method: "POST",
+      }
+    );
+    const data = await res.json();
+
+    if (!data.ok) {
+      console.error("Webhook error:", data);
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          token: newToken,
+          error: "Failed to set webhook",
+        }),
+        { status: 500 }
+      );
+    }
+  } catch (err) {
+    console.error("Webhook exception:", err);
+    return new Response(
+      JSON.stringify({ ok: false, token: newToken, error: err.message }),
+      {
+        status: 500,
+      }
+    );
   }
 
-  return new Response(JSON.stringify({ ok: true }), { status: 200 });
+  return new Response(JSON.stringify({ ok: true, token: newToken }), {
+    status: 200,
+  });
+}
+
+export async function GET() {
+  await connectDB();
+  const tokens = await Token.find({});
+  return new Response(JSON.stringify({ ok: true, tokens }), { status: 200 });
 }
