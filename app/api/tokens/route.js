@@ -1,8 +1,6 @@
 import Token from "@/models/Token";
 import { connectDB } from "@/lib/mongoose";
 
-const TELEGRAM_API = "https://api.telegram.org/bot";
-
 export async function POST(req) {
   await connectDB();
   const { name, token } = await req.json();
@@ -13,12 +11,12 @@ export async function POST(req) {
       { status: 400 }
     );
 
-  // Створюємо новий токен у MongoDB
   const newToken = await Token.create({ name, token });
 
-  // Автоматично ставимо webhook для нового бота
+  // Встановлення webhook (як ми робили раніше)
   try {
-    const domain = process.env.NEXT_PUBLIC_SITE_URL; // Домен твоєї адмінки / сайту на Vercel
+    const TELEGRAM_API = "https://api.telegram.org/bot";
+    const domain = process.env.NEXT_PUBLIC_SITE_URL;
     const res = await fetch(
       `${TELEGRAM_API}${token}/setWebhook?url=${domain}/api/webhook/${token}`,
       {
@@ -51,4 +49,10 @@ export async function POST(req) {
   return new Response(JSON.stringify({ ok: true, token: newToken }), {
     status: 200,
   });
+}
+
+export async function GET() {
+  await connectDB();
+  const tokens = await Token.find({});
+  return new Response(JSON.stringify({ ok: true, tokens }), { status: 200 });
 }

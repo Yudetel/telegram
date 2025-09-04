@@ -1,63 +1,33 @@
-import Token from "@/models/Token";
+import Rule from "@/models/Rule";
+import TokenModel from "@/models/Token";
 import { connectDB } from "@/lib/mongoose";
 
-export async function POST(req) {
+const TELEGRAM_API = "https://api.telegram.org/bot";
+
+export async function POST(req, { params }) {
   await connectDB();
-  const { name, token } = await req.json();
 
-  if (!name || !token)
+  const tokenEntry = await TokenModel.findOne({ token: params.token });
+  if (!tokenEntry)
     return new Response(
-      JSON.stringify({ ok: false, error: "Missing fields" }),
-      { status: 400 }
+      JSON.stringify({ ok: false, error: "Token not found" }),
+      { status: 404 }
     );
 
-  const newToken = await Token.create({ name, token });
+  const body = await req.json();
+  const chatId = body.message?.chat?.id;
+  const text = body.message?.text;
+  if (!chatId || !text)
+    return new Response(JSON.stringify({ ok: true }), { status: 200 });
 
-  // Встановлення webhook (як ми робили раніше)
-  try {
-    const TELEGRAM_API = "https://api.telegram.org/bot";
-    const domain = process.env.NEXT_PUBLIC_SITE_URL;
-    const res = await fetch(
-      `${TELEGRAM_API}${token}/setWebhook?url=${domain}/api/webhook/${token}`,
-      {
-        method: "POST",
-      }
-    );
-    const data = await res.json();
-
-    if (!data.ok) {
-      console.error("Webhook error:", data);
-      return new Response(
-        JSON.stringify({
-          ok: false,
-          token: newToken,
-          error: "Failed to set webhook",
-        }),
-        { status: 500 }
-      );
-    }
-  } catch (err) {
-    console.error("Webhook exception:", err);
-    return new Response(
-      JSON.stringify({ ok: false, token: newToken, error: err.message }),
-      {
-        status: 500,
-      }
-    );
-  }
-
-  return new Response(JSON.stringify({ ok: true, token: newToken }), {
-    status: 200,
-  });
-}
-
-export async function GET() {
-  await connectDB();
-  const tokens = await Token.find({});
-  if (!tokens) {
-    return new Response(JSON.stringify({ ok: true, tokens: [] }), {
-      status: 200,
+  const rule = await Rule.findOne({ trigger: text });
+  if (rule) {
+    await fetch(`${TELEGRAM_API}${tokenEntry.token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text: rule.response }),
     });
   }
-  return new Response(JSON.stringify({ ok: true, tokens }), { status: 200 });
+
+  return new Response(JSON.stringify({ ok: true }), { status: 200 });
 }
