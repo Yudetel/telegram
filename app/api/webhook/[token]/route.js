@@ -10,7 +10,8 @@ export async function POST(req, { params }) {
   const chatId = body.message?.chat?.id;
   const text = body.message?.text;
 
-  if (!chatId || !text) return new Response(JSON.stringify({ ok: true }));
+  if (!chatId || !text)
+    return new Response(JSON.stringify({ ok: true }), { status: 200 });
 
   await connectDB();
 
@@ -27,5 +28,5 @@ export async function POST(req, { params }) {
     });
   }
 
-  return new Response(JSON.stringify({ ok: true }));
+  return new Response(JSON.stringify({ ok: true }), { status: 200 });
 }
