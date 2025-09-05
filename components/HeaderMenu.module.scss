@@ -1,7 +1,7 @@
 .header {
   width: 100%;
   background: #0070f3;
-  padding: 1rem 2rem;
+  padding: 5px 2rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid black;
 }
@@ -19,6 +19,12 @@
   font-size: 1.2rem;
   color: white;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  img {
+    width: 50px;
+  }
 }
 
 .links {

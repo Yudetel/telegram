@@ -10,6 +10,7 @@ export default function HeaderMenu() {
     <header className={styles.header}>
       <nav className={styles.nav}>
         <Link href="/" className={styles.logo}>
+          <img src="/logo.png" />
           MyBotApp
         </Link>
         <div className={styles.links}>
