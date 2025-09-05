@@ -10,7 +10,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="uk">
-      <body>
+      <body style={{ position: "relative" }}>
         <Providers>
           <HeaderMenu />
           <main>{children}</main>

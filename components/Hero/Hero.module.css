@@ -42,6 +42,7 @@
 }
 
 .overlay {
+  margin-top: 100px;
   width: 100%;
   padding: clamp(1.5rem, 3vw, 3rem) clamp(2rem, 4vw, 4rem);
   background: rgba(0, 0, 0, 0.45);
@@ -260,14 +261,14 @@
   .overlay::before {
     height: 10px;
     top: -20px;
-    background: rgba(253, 107, 35, 0.2);
+    background: rgba(253, 107, 35, 0.6);
     border-color: rgba(253, 107, 35, 0.5);
     box-shadow: 0 4px 15px rgba(253, 107, 35, 0.3);
   }
   .overlay::after {
     height: 10px;
     bottom: -20px;
-    background: rgba(253, 107, 35, 0.2);
+    background: rgba(253, 107, 35, 0.6);
     border-color: rgba(253, 107, 35, 0.5);
     box-shadow: 0 4px 15px rgba(253, 107, 35, 0.3);
   }
