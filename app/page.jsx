@@ -18,12 +18,12 @@ export default function HomePage() {
 
     const handleMouseMove = (e) => {
       const rect = block.getBoundingClientRect();
-      const x = e.clientX - rect.left; // позиція миші по X відносно блока
-      const y = e.clientY - rect.top; // позиція миші по Y відносно блока
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * 10; // максимум 10 градусів
-      const rotateY = ((x - centerX) / centerX) * -10; // максимум -10 градусів
+      const rotateX = ((y - centerY) / centerY) * 10;
+      const rotateY = ((x - centerX) / centerX) * -10;
       block.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
     };
 
@@ -52,16 +52,26 @@ export default function HomePage() {
         className={`${styles.textSide} ${animate ? styles.active : ""}`}
       >
         <div className={styles.overlay}>
-          <h1>Створи свого Telegram-бота за хвилини</h1>
-          <p>
+          <h1 className={animate ? styles.slideIn : ""}>
+            Створи свого Telegram-бота за хвилини
+          </h1>
+          <p className={animate ? styles.slideInDelay : ""}>
             Легко, швидко та без зайвого коду. Почни прямо зараз і керуй своїми
             ботами онлайн.
           </p>
           <div className={styles.buttons}>
-            <Link href="/register" className={styles.registerBtn}>
+            <Link
+              href="/register"
+              className={`${styles.registerBtn} ${
+                animate ? styles.bubble1 : ""
+              }`}
+            >
               Зареєструватися
             </Link>
-            <Link href="/login" className={styles.loginBtn}>
+            <Link
+              href="/login"
+              className={`${styles.loginBtn} ${animate ? styles.bubble2 : ""}`}
+            >
               Увійти
             </Link>
           </div>

@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: flex-start;
   overflow: hidden;
-  perspective: 1000px;
+  perspective: 1000px; /* для 3D ефекту */
 }
 
 .backgroundImage {
@@ -27,7 +27,7 @@
   max-width: 850px;
   opacity: 0;
   transform: translateX(-30px) translateY(10px) rotateX(5deg);
-  transition: transform 0.1s ease, opacity 0.8s ease;
+  transition: opacity 0.8s ease, transform 0.1s ease;
 }
 
 .textSide.active {
@@ -35,20 +35,61 @@
   transform: translateX(0) translateY(0) rotateX(0deg) rotateY(0deg);
 }
 
-/* Hover 3D ефект */
 .textSide:hover {
-  transform: translateX(0) translateY(-15px) rotateX(2deg) rotateY(5deg)
-    scale(1.03);
+  transform: rotateX(2deg) rotateY(5deg) scale(1.03);
 }
 
-/* Glassmorphism блок */
+/* Glassmorphism + тінь */
 .overlay {
-  background: rgba(0, 0, 0, 0.5); /* темніше скло для кращого контрасту */
+  background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(15px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); /* трохи сильніша тінь */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   padding: 4rem;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1); /* тонка рамка */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- Анімації тексту --- */
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bubble {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.slideIn {
+  animation: slideIn 0.6s forwards;
+}
+
+.slideInDelay {
+  animation: slideIn 0.6s 0.3s forwards;
+}
+
+/* Кнопки з’являються по черзі */
+.bubble1 {
+  animation: bubble 0.5s 0.6s forwards;
+}
+
+.bubble2 {
+  animation: bubble 0.5s 0.8s forwards;
 }
 
 .overlay h1 {
@@ -70,14 +111,18 @@
   flex-wrap: wrap;
 }
 
-.registerBtn {
+.registerBtn,
+.loginBtn {
   padding: 0.8rem 1.6rem;
-  background: #00d4ff;
-  color: #000;
   font-weight: bold;
   border-radius: 10px;
   text-decoration: none;
   transition: 0.3s;
+}
+
+.registerBtn {
+  background: #00d4ff;
+  color: #000;
 }
 
 .registerBtn:hover {
@@ -85,14 +130,9 @@
 }
 
 .loginBtn {
-  padding: 0.8rem 1.6rem;
   background: transparent;
   color: #00d4ff;
   border: 2px solid #00d4ff;
-  font-weight: bold;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: 0.3s;
 }
 
 .loginBtn:hover {
@@ -105,7 +145,7 @@
   .textSide {
     padding: 2rem;
     max-width: 90%;
-    transform: translateX(0) translateY(0) rotateX(0deg) rotateY(0deg);
+    transform: none;
   }
   .overlay {
     padding: 2rem;
