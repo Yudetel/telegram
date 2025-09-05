@@ -239,7 +239,7 @@
 
 @media (max-width: 480px) {
   .backgroundImage {
-    right: -140px;
+    right: -160px;
   }
   .overlay {
     margin-top: 150px;
@@ -247,6 +247,8 @@
   }
   .animatedText {
     font-size: clamp(1.5rem, 4vw, 2rem);
+    display: flex;
+    justify-content: center;
   }
   .animatedTextP {
     font-size: clamp(0.8rem, 2vw, 0.9rem);
