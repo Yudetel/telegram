@@ -160,3 +160,45 @@
     justify-content: center;
   }
 }
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bubble {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.slideIn {
+  animation: slideIn 0.8s forwards; /* трохи довше */
+}
+
+.slideInDelay {
+  animation: slideIn 0.8s 0.5s forwards; /* збільшили затримку */
+}
+
+/* Кнопки з’являються по черзі */
+.bubble1 {
+  animation: bubble 0.7s 0.8s forwards; /* довше і пізніше */
+}
+
+.bubble2 {
+  animation: bubble 0.7s 1s forwards; /* ще пізніше для другої кнопки */
+}
