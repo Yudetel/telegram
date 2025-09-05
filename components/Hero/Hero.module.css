@@ -242,7 +242,7 @@
     right: -140px;
   }
   .overlay {
-    margin-top: 180px;
+    margin-top: 150px;
     padding: clamp(1.5rem, 1.5vw, 1.5rem);
   }
   .animatedText {
@@ -254,5 +254,9 @@
   .buttons {
     flex-direction: column;
     text-align: center;
+  }
+  .overlay::before {
+    height: 10px;
+    top: -20px;
   }
 }
