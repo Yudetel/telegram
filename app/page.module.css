@@ -28,11 +28,13 @@
 .hoverWrapper {
   padding: 3rem 4rem;
   border-radius: 24px;
-  perspective: 1200px; /* важливо для 3D */
+  perspective: 1200px;
   display: inline-block;
+  position: relative;
 }
 
 .overlay {
+  position: relative;
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(14px);
   padding: 3rem 4rem;
@@ -43,6 +45,31 @@
   transform-style: preserve-3d;
   transform-origin: center center;
   transition: transform 0.2s ease-out;
+}
+
+.overlay::before,
+.overlay::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 80%;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.45); /* чорне скло */
+  backdrop-filter: blur(12px); /* матовий ефект */
+  border-radius: 12px;
+  transform: translateX(-50%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* легка тінь */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: 0.3s, transform 0.2s ease-out;
+  z-index: 1;
+}
+
+.overlay::before {
+  top: -80px; /* зверху */
+}
+
+.overlay::after {
+  bottom: -80px; /* знизу */
 }
 
 .animatedText {
@@ -103,17 +130,17 @@
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(12px);
-  border: 2px solid rgba(253, 107, 53, 0.5);
-  background: rgba(253, 107, 53, 0.2);
+  border: 2px solid rgba(253, 107, 35, 0.5);
+  background: rgba(253, 107, 35, 0.2);
   color: #fff;
-  box-shadow: 0 6px 20px rgba(253, 107, 53, 0.3);
+  box-shadow: 0 6px 20px rgba(253, 107, 35, 0.3);
 }
 
 .registerBtn:hover,
 .loginBtn:hover {
-  background: rgba(253, 107, 53, 0.4);
-  border-color: rgba(253, 107, 53, 0.8);
-  box-shadow: 0 8px 25px rgba(253, 107, 53, 0.5);
+  background: rgba(253, 107, 35, 0.4);
+  border-color: rgba(253, 107, 35, 0.8);
+  box-shadow: 0 8px 25px rgba(253, 107, 35, 0.5);
   transform: rotateX(-7deg) rotateY(7deg) scale(1.03);
 }
 
@@ -123,15 +150,15 @@
 
 @keyframes glowPulse {
   0% {
-    box-shadow: 0 0 10px rgba(253, 107, 53, 0.6),
-      0 0 20px rgba(253, 107, 53, 0.4), 0 0 40px rgba(253, 107, 53, 0.2);
+    box-shadow: 0 0 10px rgba(253, 107, 35, 0.6),
+      0 0 20px rgba(253, 107, 35, 0.4), 0 0 40px rgba(253, 107, 35, 0.2);
   }
   50% {
-    box-shadow: 0 0 20px rgba(253, 107, 53, 0.8),
-      0 0 40px rgba(253, 107, 53, 0.6), 0 0 60px rgba(253, 107, 53, 0.4);
+    box-shadow: 0 0 20px rgba(253, 107, 35, 0.8),
+      0 0 40px rgba(253, 107, 35, 0.6), 0 0 60px rgba(253, 107, 35, 0.4);
   }
   100% {
-    box-shadow: 0 0 10px rgba(253, 107, 53, 0.6),
-      0 0 20px rgba(253, 107, 53, 0.4), 0 0 40px rgba(253, 107, 53, 0.2);
+    box-shadow: 0 0 10px rgba(253, 107, 35, 0.6),
+      0 0 20px rgba(253, 107, 35, 0.4), 0 0 40px rgba(253, 107, 35, 0.2);
   }
 }

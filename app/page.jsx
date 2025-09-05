@@ -18,8 +18,8 @@ export default function Home() {
 
     const handleMouseMove = (e) => {
       const rect = wrapper.getBoundingClientRect();
-      const xNorm = (e.clientX - rect.left) / rect.width; // 0..1
-      const yNorm = (e.clientY - rect.top) / rect.height; // 0..1
+      const xNorm = (e.clientX - rect.left) / rect.width;
+      const yNorm = (e.clientY - rect.top) / rect.height;
 
       const rotateY = (xNorm - 0.5) * 30;
       const rotateX = (0.5 - yNorm) * 30;
