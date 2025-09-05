@@ -260,9 +260,15 @@
   .overlay::before {
     height: 10px;
     top: -20px;
+    background: rgba(253, 107, 35, 0.2);
+    border-color: rgba(253, 107, 35, 0.5);
+    box-shadow: 0 4px 15px rgba(253, 107, 35, 0.3);
   }
   .overlay::after {
     height: 10px;
     bottom: -20px;
+    background: rgba(253, 107, 35, 0.2);
+    border-color: rgba(253, 107, 35, 0.5);
+    box-shadow: 0 4px 15px rgba(253, 107, 35, 0.3);
   }
 }
