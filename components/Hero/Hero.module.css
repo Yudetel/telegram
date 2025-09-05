@@ -242,7 +242,7 @@
     right: -160px;
   }
   .overlay {
-    margin-top: 150px;
+    margin-top: 175px;
     padding: clamp(1.5rem, 1.5vw, 1.5rem);
   }
   .animatedText {
@@ -260,5 +260,9 @@
   .overlay::before {
     height: 10px;
     top: -20px;
+  }
+  .overlay::after {
+    height: 10px;
+    bottom: -20px;
   }
 }
