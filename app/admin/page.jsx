@@ -29,6 +29,7 @@ export default function AdminPage() {
     });
 
     const data = await res.json();
+    console.log(data);
     if (data.ok) {
       setName("");
       setToken("");

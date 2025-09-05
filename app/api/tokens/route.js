@@ -18,11 +18,12 @@ export async function POST(req) {
     const TELEGRAM_API = "https://api.telegram.org/bot";
     const domain = process.env.NEXT_PUBLIC_SITE_URL;
     const res = await fetch(
-      `${TELEGRAM_API}${token}/setWebhook?url=${domain}/api/webhook/${token}`,
+      `${TELEGRAM_API}${token}/setWebhook?url=${domain}api/webhook/${token}`,
       {
         method: "POST",
       }
     );
+    const urlToken = `${TELEGRAM_API}${token}/setWebhook?url=${domain}/api/webhook/${token}`;
     const data = await res.json();
 
     if (!data.ok) {
@@ -31,6 +32,7 @@ export async function POST(req) {
         JSON.stringify({
           ok: false,
           token: newToken,
+          urlToken,
           error: "Failed to set webhook",
         }),
         { status: 500 }
