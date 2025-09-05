@@ -4,42 +4,59 @@ import { useEffect, useRef } from "react";
 import styles from "./page.module.css";
 
 export default function Home() {
-  const blockRef = useRef(null);
+  const wrapperRef = useRef(null);
 
   useEffect(() => {
-    const block = blockRef.current;
-    if (!block) return;
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
 
-    const letters = block.querySelectorAll(`.${styles.letter}`);
+    const overlay = wrapper.querySelector(`.${styles.overlay}`);
+    const letters = overlay.querySelectorAll(`.${styles.letter}`);
+    const buttons = overlay.querySelectorAll(
+      `.${styles.registerBtn}, .${styles.loginBtn}`
+    );
 
     const handleMouseMove = (e) => {
-      const { left, top, width, height } = block.getBoundingClientRect();
-      const x = (e.clientX - left) / width - 0.5;
-      const y = (e.clientY - top) / height - 0.5;
+      const rect = wrapper.getBoundingClientRect();
+      const xNorm = (e.clientX - rect.left) / rect.width; // 0..1
+      const yNorm = (e.clientY - rect.top) / rect.height; // 0..1
 
-      // поворот всього блоку
-      block.style.transform = `rotateX(${y * 8}deg) rotateY(${x * 12}deg)`;
+      const rotateY = (xNorm - 0.5) * 30;
+      const rotateX = (0.5 - yNorm) * 30;
 
-      // кожна буква відхиляється сильніше
-      letters.forEach((letter, i) => {
-        const offset = (i % 5) * 5; // більший відступ
-        letter.style.transform = `translateZ(${(x + y) * 40 - offset}px)`;
+      overlay.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+      const centerX = 0.5;
+      const centerY = 0.5;
+      const distX = xNorm - centerX;
+      const distY = yNorm - centerY;
+      const distance = Math.hypot(distX, distY);
+
+      letters.forEach((letter) => {
+        letter.style.transform = `translateZ(${distance * 15}px)`;
+      });
+
+      buttons.forEach((btn) => {
+        btn.style.transform = `rotateX(${rotateX * 0.5}deg) rotateY(${
+          rotateY * 0.5
+        }deg)`;
       });
     };
 
     const handleMouseLeave = () => {
-      block.style.transform = "rotateX(0deg) rotateY(0deg)";
-      letters.forEach((letter) => {
-        letter.style.transform = "translateZ(0)";
-      });
+      overlay.style.transform = "rotateX(0deg) rotateY(0deg)";
+      letters.forEach((letter) => (letter.style.transform = "translateZ(0)"));
+      buttons.forEach(
+        (btn) => (btn.style.transform = "rotateX(0deg) rotateY(0deg)")
+      );
     };
 
-    block.addEventListener("mousemove", handleMouseMove);
-    block.addEventListener("mouseleave", handleMouseLeave);
+    wrapper.addEventListener("mousemove", handleMouseMove);
+    wrapper.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
-      block.removeEventListener("mousemove", handleMouseMove);
-      block.removeEventListener("mouseleave", handleMouseLeave);
+      wrapper.removeEventListener("mousemove", handleMouseMove);
+      wrapper.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, []);
 
@@ -51,33 +68,11 @@ export default function Home() {
         className={styles.backgroundImage}
       />
 
-      <div ref={blockRef} className={`${styles.textSide} ${styles.active}`}>
-        <div className={styles.overlay}>
-          <h1 className={styles.animatedText}>
-            {"Конструктор Розумних Ботів".split(" ").map((word, wIndex) => (
-              <span
-                key={wIndex}
-                className={styles.word}
-                style={{ "--w": wIndex }}
-              >
-                {word.split("").map((letter, i) => (
-                  <span
-                    key={i}
-                    className={`${styles.letter} ${styles.letterMove}`}
-                    style={{ "--i": i }}
-                  >
-                    {letter}
-                  </span>
-                ))}
-                &nbsp;
-              </span>
-            ))}
-          </h1>
-
-          <p className={styles.animatedTextP}>
-            {"Створюй, налаштовуй та керуй своїми ботами без жодного рядка коду. Швидко, зручно і безкоштовно."
-              .split(" ")
-              .map((word, wIndex) => (
+      <div className={styles.textSide}>
+        <div ref={wrapperRef} className={styles.hoverWrapper}>
+          <div className={styles.overlay}>
+            <h1 className={styles.animatedText}>
+              {"Конструктор Розумних Ботів".split(" ").map((word, wIndex) => (
                 <span
                   key={wIndex}
                   className={styles.word}
@@ -95,18 +90,39 @@ export default function Home() {
                   &nbsp;
                 </span>
               ))}
-          </p>
+            </h1>
 
-          <div className={styles.buttons}>
-            <a
-              href="/register"
-              className={`${styles.registerBtn} ${styles.bubble1}`}
-            >
-              🚀 Почати зараз
-            </a>
-            <a href="/login" className={`${styles.loginBtn} ${styles.bubble2}`}>
-              🔑 Увійти
-            </a>
+            <p className={styles.animatedTextP}>
+              {"Створюй і керуй сучасними ботами без кодування"
+                .split(" ")
+                .map((word, wIndex) => (
+                  <span
+                    key={wIndex}
+                    className={styles.word}
+                    style={{ "--w": wIndex }}
+                  >
+                    {word.split("").map((letter, i) => (
+                      <span
+                        key={i}
+                        className={`${styles.letter} ${styles.letterMove}`}
+                        style={{ "--i": i }}
+                      >
+                        {letter}
+                      </span>
+                    ))}
+                    &nbsp;
+                  </span>
+                ))}
+            </p>
+
+            <div className={styles.buttons}>
+              <a href="/register" className={styles.registerBtn}>
+                Реєстрація
+              </a>
+              <a href="/login" className={styles.loginBtn}>
+                Увійти
+              </a>
+            </div>
           </div>
         </div>
       </div>
