@@ -4,6 +4,19 @@ import { useEffect, useState, useRef } from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
 
+// Розбиваємо текст на слова і букви з index для stagger
+const splitTextWords = (text) =>
+  text.split(" ").map((word, wIdx) => (
+    <span key={wIdx} className={styles.word} style={{ "--w": wIdx }}>
+      {word.split("").map((char, i) => (
+        <span key={i} style={{ "--i": i }} className={styles.letter}>
+          {char}
+        </span>
+      ))}
+      &nbsp; {/* пробіл між словами */}
+    </span>
+  ));
+
 export default function HomePage() {
   const [animate, setAnimate] = useState(false);
   const blockRef = useRef(null);
@@ -52,12 +65,13 @@ export default function HomePage() {
         className={`${styles.textSide} ${animate ? styles.active : ""}`}
       >
         <div className={styles.overlay}>
-          <h1 className={animate ? styles.slideIn : ""}>
-            Створи свого Telegram-бота за хвилини
+          <h1 className={styles.animatedText}>
+            {splitTextWords("Створи свого Бота за хвилини")}
           </h1>
-          <p className={animate ? styles.slideInDelay : ""}>
-            Легко, швидко та без зайвого коду. Почни прямо зараз і керуй своїми
-            ботами онлайн.
+          <p className={animate ? styles.animatedTextP : ""}>
+            {splitTextWords(
+              "Легко, швидко та без зайвого коду. Почни прямо зараз і керуй своїми ботами онлайн."
+            )}
           </p>
           <div className={styles.buttons}>
             <Link

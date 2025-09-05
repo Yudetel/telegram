@@ -1,3 +1,4 @@
+/* --- Контейнер і фон --- */
 .container {
   width: 100%;
   height: 100vh;
@@ -6,7 +7,7 @@
   align-items: center;
   justify-content: flex-start;
   overflow: hidden;
-  perspective: 1000px; /* для 3D ефекту */
+  perspective: 1000px;
 }
 
 .backgroundImage {
@@ -19,6 +20,7 @@
   z-index: 1;
 }
 
+/* --- Блок з текстом --- */
 .textSide {
   position: relative;
   z-index: 2;
@@ -39,7 +41,7 @@
   transform: rotateX(2deg) rotateY(5deg) scale(1.03);
 }
 
-/* Glassmorphism + тінь */
+/* --- Glass + тінь --- */
 .overlay {
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(15px);
@@ -49,18 +51,51 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* --- Анімації тексту --- */
-@keyframes slideIn {
+/* --- Анімація по буквах --- */
+.letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: letterBounce 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+
+/* H1 слова */
+.animatedText .word {
+  display: inline-block;
+  white-space: normal;
+}
+
+.animatedText .word .letter {
+  animation-delay: calc(var(--i) * 0.05s + var(--w) * 0.2s);
+}
+
+/* P слова */
+.animatedTextP .word {
+  display: inline-block;
+  white-space: normal;
+}
+
+.animatedTextP .word .letter {
+  animation-delay: calc(var(--i) * 0.03s + var(--w) * 0.15s + 0.5s);
+}
+
+/* --- Ключові кадри для bounce --- */
+@keyframes letterBounce {
   0% {
     opacity: 0;
-    transform: translateX(-50px);
+    transform: translateY(30px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-6px);
   }
   100% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
+/* --- Кнопки з’являються по черзі --- */
 @keyframes bubble {
   0% {
     opacity: 0;
@@ -75,23 +110,15 @@
   }
 }
 
-.slideIn {
-  animation: slideIn 0.6s forwards;
-}
-
-.slideInDelay {
-  animation: slideIn 0.6s 0.3s forwards;
-}
-
-/* Кнопки з’являються по черзі */
 .bubble1 {
-  animation: bubble 0.5s 0.6s forwards;
+  animation: bubble 0.7s 1.2s forwards;
 }
 
 .bubble2 {
-  animation: bubble 0.5s 0.8s forwards;
+  animation: bubble 0.7s 1.4s forwards;
 }
 
+/* --- Текст і кнопки --- */
 .overlay h1 {
   color: #fff;
   font-size: 3rem;
@@ -140,7 +167,7 @@
   color: #000;
 }
 
-/* Адаптивність */
+/* --- Адаптивність --- */
 @media (max-width: 768px) {
   .textSide {
     padding: 2rem;
@@ -159,46 +186,4 @@
   .buttons {
     justify-content: center;
   }
-}
-
-@keyframes slideIn {
-  0% {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes bubble {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  60% {
-    transform: scale(1.2);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.slideIn {
-  animation: slideIn 0.8s forwards; /* трохи довше */
-}
-
-.slideInDelay {
-  animation: slideIn 0.8s 0.5s forwards; /* збільшили затримку */
-}
-
-/* Кнопки з’являються по черзі */
-.bubble1 {
-  animation: bubble 0.7s 0.8s forwards; /* довше і пізніше */
-}
-
-.bubble2 {
-  animation: bubble 0.7s 1s forwards; /* ще пізніше для другої кнопки */
 }
