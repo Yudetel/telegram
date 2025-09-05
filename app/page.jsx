@@ -1,47 +1,37 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./page.module.css";
-import Link from "next/link";
 
-// Розбиваємо текст на слова і букви з index для stagger
-const splitTextWords = (text) =>
-  text.split(" ").map((word, wIdx) => (
-    <span key={wIdx} className={styles.word} style={{ "--w": wIdx }}>
-      {word.split("").map((char, i) => (
-        <span key={i} style={{ "--i": i }} className={styles.letter}>
-          {char}
-        </span>
-      ))}
-      &nbsp; {/* пробіл між словами */}
-    </span>
-  ));
-
-export default function HomePage() {
-  const [animate, setAnimate] = useState(false);
+export default function Home() {
   const blockRef = useRef(null);
-
-  useEffect(() => {
-    setTimeout(() => setAnimate(true), 200);
-  }, []);
 
   useEffect(() => {
     const block = blockRef.current;
     if (!block) return;
 
+    const letters = block.querySelectorAll(`.${styles.letter}`);
+
     const handleMouseMove = (e) => {
-      const rect = block.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * 10;
-      const rotateY = ((x - centerX) / centerX) * -10;
-      block.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+      const { left, top, width, height } = block.getBoundingClientRect();
+      const x = (e.clientX - left) / width - 0.5;
+      const y = (e.clientY - top) / height - 0.5;
+
+      // поворот всього блоку
+      block.style.transform = `rotateX(${y * 8}deg) rotateY(${x * 12}deg)`;
+
+      // кожна буква відхиляється сильніше
+      letters.forEach((letter, i) => {
+        const offset = (i % 5) * 5; // більший відступ
+        letter.style.transform = `translateZ(${(x + y) * 40 - offset}px)`;
+      });
     };
 
     const handleMouseLeave = () => {
-      block.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
+      block.style.transform = "rotateX(0deg) rotateY(0deg)";
+      letters.forEach((letter) => {
+        letter.style.transform = "translateZ(0)";
+      });
     };
 
     block.addEventListener("mousemove", handleMouseMove);
@@ -56,38 +46,67 @@ export default function HomePage() {
   return (
     <div className={styles.container}>
       <img
-        src="https://raw.githubusercontent.com/Yudetel/telegram/refs/heads/main/public/robot1.jpg"
-        alt="Робот"
+        src="/robot1.jpg"
+        alt="Background"
         className={styles.backgroundImage}
       />
-      <div
-        ref={blockRef}
-        className={`${styles.textSide} ${animate ? styles.active : ""}`}
-      >
+
+      <div ref={blockRef} className={`${styles.textSide} ${styles.active}`}>
         <div className={styles.overlay}>
           <h1 className={styles.animatedText}>
-            {splitTextWords("Створи свого Бота за хвилини")}
+            {"Конструктор Розумних Ботів".split(" ").map((word, wIndex) => (
+              <span
+                key={wIndex}
+                className={styles.word}
+                style={{ "--w": wIndex }}
+              >
+                {word.split("").map((letter, i) => (
+                  <span
+                    key={i}
+                    className={`${styles.letter} ${styles.letterMove}`}
+                    style={{ "--i": i }}
+                  >
+                    {letter}
+                  </span>
+                ))}
+                &nbsp;
+              </span>
+            ))}
           </h1>
-          <p className={animate ? styles.animatedTextP : ""}>
-            {splitTextWords(
-              "Легко, швидко та без зайвого коду. Почни прямо зараз і керуй своїми ботами онлайн."
-            )}
+
+          <p className={styles.animatedTextP}>
+            {"Створюй, налаштовуй та керуй своїми ботами без жодного рядка коду. Швидко, зручно і безкоштовно."
+              .split(" ")
+              .map((word, wIndex) => (
+                <span
+                  key={wIndex}
+                  className={styles.word}
+                  style={{ "--w": wIndex }}
+                >
+                  {word.split("").map((letter, i) => (
+                    <span
+                      key={i}
+                      className={`${styles.letter} ${styles.letterMove}`}
+                      style={{ "--i": i }}
+                    >
+                      {letter}
+                    </span>
+                  ))}
+                  &nbsp;
+                </span>
+              ))}
           </p>
+
           <div className={styles.buttons}>
-            <Link
+            <a
               href="/register"
-              className={`${styles.registerBtn} ${
-                animate ? styles.bubble1 : ""
-              }`}
+              className={`${styles.registerBtn} ${styles.bubble1}`}
             >
-              Зареєструватися
-            </Link>
-            <Link
-              href="/login"
-              className={`${styles.loginBtn} ${animate ? styles.bubble2 : ""}`}
-            >
-              Увійти
-            </Link>
+              🚀 Почати зараз
+            </a>
+            <a href="/login" className={`${styles.loginBtn} ${styles.bubble2}`}>
+              🔑 Увійти
+            </a>
           </div>
         </div>
       </div>

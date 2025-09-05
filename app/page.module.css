@@ -1,13 +1,8 @@
-/* --- Контейнер і фон --- */
 .container {
+  position: relative;
   width: 100%;
   height: 100vh;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
   overflow: hidden;
-  perspective: 1000px;
 }
 
 .backgroundImage {
@@ -17,173 +12,121 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 1;
+  z-index: -1;
 }
 
-/* --- Блок з текстом --- */
 .textSide {
   position: relative;
-  z-index: 2;
-  flex: 1;
-  padding: 5rem;
-  max-width: 850px;
-  opacity: 0;
-  transform: translateX(-30px) translateY(10px) rotateX(5deg);
-  transition: opacity 0.8s ease, transform 0.1s ease;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* блок вирівняний зліва */
+  padding-left: 8%;
+  transform-style: preserve-3d;
+  transition: transform 0.2s ease-out;
 }
 
-.textSide.active {
-  opacity: 1;
-  transform: translateX(0) translateY(0) rotateX(0deg) rotateY(0deg);
-}
-
-.textSide:hover {
-  transform: rotateX(2deg) rotateY(5deg) scale(1.03);
-}
-
-/* --- Glass + тінь --- */
 .overlay {
   background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(15px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  padding: 4rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  padding: 3rem 4rem;
+  border-radius: 24px;
+  text-align: left; /* текст зліва */
+  max-width: 650px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  transform: rotateX(0deg) rotateY(0deg);
+  transition: transform 0.3s ease-out;
 }
 
-/* --- Анімація по буквах --- */
+.animatedText {
+  font-size: 3.2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+.animatedTextP {
+  font-size: 1.35rem;
+  line-height: 1.6;
+  color: #ddd;
+  margin-bottom: 2rem;
+  display: inline-block;
+}
+
+.word {
+  display: inline-block;
+  margin-right: 0.35rem;
+}
+
 .letter {
   display: inline-block;
   opacity: 0;
   transform: translateY(30px);
-  animation: letterBounce 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
 }
 
-/* H1 слова */
-.animatedText .word {
-  display: inline-block;
-  white-space: normal;
+.letterMove {
+  animation: letterFade 0.6s forwards;
+  animation-delay: calc(var(--i) * 0.05s + var(--w) * 0.3s);
 }
 
-.animatedText .word .letter {
-  animation-delay: calc(var(--i) * 0.05s + var(--w) * 0.2s);
-}
-
-/* P слова */
-.animatedTextP .word {
-  display: inline-block;
-  white-space: normal;
-}
-
-.animatedTextP .word .letter {
-  animation-delay: calc(var(--i) * 0.03s + var(--w) * 0.15s + 0.5s);
-}
-
-/* --- Ключові кадри для bounce --- */
-@keyframes letterBounce {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(-6px);
-  }
-  100% {
+@keyframes letterFade {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* --- Кнопки з’являються по черзі --- */
-@keyframes bubble {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  60% {
-    transform: scale(1.2);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.bubble1 {
-  animation: bubble 0.7s 1.2s forwards;
-}
-
-.bubble2 {
-  animation: bubble 0.7s 1.4s forwards;
-}
-
-/* --- Текст і кнопки --- */
-.overlay h1 {
-  color: #fff;
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.overlay p {
-  color: #fff;
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  line-height: 1.5;
-}
-
+/* --- Кнопки --- */
 .buttons {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+  justify-content: flex-start; /* кнопки теж зліва */
 }
 
 .registerBtn,
 .loginBtn {
-  padding: 0.8rem 1.6rem;
+  padding: 0.9rem 1.8rem;
   font-weight: bold;
-  border-radius: 10px;
+  border-radius: 12px;
   text-decoration: none;
   transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  border: 2px solid rgba(253, 107, 53, 0.5);
+  background: rgba(253, 107, 53, 0.2);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(253, 107, 53, 0.3);
 }
 
-.registerBtn {
-  background: #00d4ff;
-  color: #000;
-}
-
-.registerBtn:hover {
-  background: #00bcd4;
-}
-
-.loginBtn {
-  background: transparent;
-  color: #00d4ff;
-  border: 2px solid #00d4ff;
-}
-
+.registerBtn:hover,
 .loginBtn:hover {
-  background: #00d4ff;
-  color: #000;
+  background: rgba(253, 107, 53, 0.4);
+  border-color: rgba(253, 107, 53, 0.8);
+  box-shadow: 0 8px 25px rgba(253, 107, 53, 0.5);
+  transform: translateY(-2px) scale(1.03);
 }
 
-/* --- Адаптивність --- */
-@media (max-width: 768px) {
-  .textSide {
-    padding: 2rem;
-    max-width: 90%;
-    transform: none;
+/* --- Пульсація для головної кнопки --- */
+.registerBtn {
+  animation: glowPulse 2.5s infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(253, 107, 53, 0.6),
+      0 0 20px rgba(253, 107, 53, 0.4), 0 0 40px rgba(253, 107, 53, 0.2);
   }
-  .overlay {
-    padding: 2rem;
+  50% {
+    box-shadow: 0 0 20px rgba(253, 107, 53, 0.8),
+      0 0 40px rgba(253, 107, 53, 0.6), 0 0 60px rgba(253, 107, 53, 0.4);
   }
-  .overlay h1 {
-    font-size: 2rem;
-  }
-  .overlay p {
-    font-size: 1rem;
-  }
-  .buttons {
-    justify-content: center;
+  100% {
+    box-shadow: 0 0 10px rgba(253, 107, 53, 0.6),
+      0 0 20px rgba(253, 107, 53, 0.4), 0 0 40px rgba(253, 107, 53, 0.2);
   }
 }
