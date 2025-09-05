@@ -1,5 +1,5 @@
 import "./globals.css";
-import HeaderMenu from "@/components/HeaderMenu";
+import HeaderMenu from "@/components/HeaderMenu/HeaderMenu";
 import Providers from "@/components/Providers";
 
 export const metadata = {

@@ -1,0 +1,164 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.backgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.textSide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 8%;
+}
+
+.hoverWrapper {
+  padding: 3rem 4rem;
+  border-radius: 24px;
+  perspective: 1200px;
+  display: inline-block;
+  position: relative;
+}
+
+.overlay {
+  position: relative;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(14px);
+  padding: 3rem 4rem;
+  border-radius: 24px;
+  text-align: left;
+  max-width: 650px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  transition: transform 0.2s ease-out;
+}
+
+.overlay::before,
+.overlay::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 80%;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.45); /* чорне скло */
+  backdrop-filter: blur(12px); /* матовий ефект */
+  border-radius: 12px;
+  transform: translateX(-50%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* легка тінь */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: 0.3s, transform 0.2s ease-out;
+  z-index: 1;
+}
+
+.overlay::before {
+  top: -80px; /* зверху */
+}
+
+.overlay::after {
+  bottom: -80px; /* знизу */
+}
+
+.animatedText {
+  font-size: 3.2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+.animatedTextP {
+  font-size: 1.35rem;
+  line-height: 1.6;
+  color: #ddd;
+  margin-bottom: 2rem;
+  display: inline-block;
+}
+
+.word {
+  display: inline-block;
+  margin-right: 0.35rem;
+}
+
+.letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: transform 0.2s ease-out;
+}
+
+.letterMove {
+  animation: letterFade 0.6s forwards;
+  animation-delay: calc(var(--i) * 0.05s + var(--w) * 0.3s);
+}
+
+@keyframes letterFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.registerBtn,
+.loginBtn {
+  padding: 0.9rem 1.8rem;
+  font-weight: bold;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: 0.3s, transform 0.2s ease-out;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  border: 2px solid rgba(253, 107, 35, 0.5);
+  background: rgba(253, 107, 35, 0.2);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(253, 107, 35, 0.3);
+}
+
+.registerBtn:hover,
+.loginBtn:hover {
+  background: rgba(253, 107, 35, 0.4);
+  border-color: rgba(253, 107, 35, 0.8);
+  box-shadow: 0 8px 25px rgba(253, 107, 35, 0.5);
+  transform: rotateX(-7deg) rotateY(7deg) scale(1.03);
+}
+
+.registerBtn {
+  animation: glowPulse 2.5s infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(253, 107, 35, 0.6),
+      0 0 20px rgba(253, 107, 35, 0.4), 0 0 40px rgba(253, 107, 35, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(253, 107, 35, 0.8),
+      0 0 40px rgba(253, 107, 35, 0.6), 0 0 60px rgba(253, 107, 35, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(253, 107, 35, 0.6),
+      0 0 20px rgba(253, 107, 35, 0.4), 0 0 40px rgba(253, 107, 35, 0.2);
+  }
+}
