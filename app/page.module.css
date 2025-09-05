@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: flex-start;
   overflow: hidden;
-  perspective: 1000px; /* для 3D ефекту */
+  perspective: 1000px;
 }
 
 .backgroundImage {
@@ -35,10 +35,20 @@
   transform: translateX(0) translateY(0) rotateX(0deg) rotateY(0deg);
 }
 
+/* Hover 3D ефект */
+.textSide:hover {
+  transform: translateX(0) translateY(-15px) rotateX(2deg) rotateY(5deg)
+    scale(1.03);
+}
+
+/* Glassmorphism блок */
 .overlay {
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.5); /* темніше скло для кращого контрасту */
+  backdrop-filter: blur(15px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); /* трохи сильніша тінь */
   padding: 4rem;
   border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* тонка рамка */
 }
 
 .overlay h1 {
