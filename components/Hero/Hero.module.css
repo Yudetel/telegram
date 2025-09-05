@@ -1,52 +1,58 @@
+/* =========================
+   Контейнер і фон
+   ========================= */
 .container {
   position: relative;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  justify-content: flex-start; /* Контент зліва */
+  align-items: center;
   overflow: hidden;
 }
 
 .backgroundImage {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  right: 0;
   height: 100%;
+  min-width: 100%;
+  width: auto;
   object-fit: cover;
-  z-index: -1;
+  object-position: right center;
+  z-index: 0;
 }
 
+/* =========================
+   Текстовий блок
+   ========================= */
 .textSide {
   position: relative;
-  width: 100%;
-  height: 100%;
+  z-index: 2;
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 8%;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 5%;
+  max-width: 50%;
 }
 
 .hoverWrapper {
-  padding: 3rem 4rem;
-  border-radius: 24px;
-  perspective: 1200px;
-  display: inline-block;
   position: relative;
+  perspective: 1000px;
 }
 
 .overlay {
-  position: relative;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(14px);
-  padding: 3rem 4rem;
-  border-radius: 24px;
-  text-align: left;
-  max-width: 650px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  width: 100%;
+  padding: clamp(1.5rem, 3vw, 3rem) clamp(2rem, 4vw, 4rem);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  display: inline-block;
   transform-style: preserve-3d;
-  transform-origin: center center;
   transition: transform 0.2s ease-out;
 }
 
+/* Панелі зверху і знизу */
 .overlay::before,
 .overlay::after {
   content: "";
@@ -54,97 +60,119 @@
   left: 50%;
   width: 80%;
   height: 60px;
-  background: rgba(0, 0, 0, 0.45); /* чорне скло */
-  backdrop-filter: blur(12px); /* матовий ефект */
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px);
   border-radius: 12px;
   transform: translateX(-50%);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* легка тінь */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: 0.3s, transform 0.2s ease-out;
   z-index: 1;
 }
 
 .overlay::before {
-  top: -80px; /* зверху */
+  top: -80px;
 }
-
 .overlay::after {
-  bottom: -80px; /* знизу */
+  bottom: -80px;
 }
 
-.animatedText {
-  font-size: 3.2rem;
-  font-weight: 800;
-  line-height: 1.2;
-  color: #fff;
-  margin-bottom: 1.5rem;
-  display: inline-block;
-}
-
+/* =========================
+   Анімація букв
+   ========================= */
+.animatedText,
 .animatedTextP {
-  font-size: 1.35rem;
-  line-height: 1.6;
-  color: #ddd;
-  margin-bottom: 2rem;
-  display: inline-block;
+  margin: 0;
+  color: #fff;
+  font-weight: bold;
+  line-height: 1.2;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .word {
-  display: inline-block;
-  margin-right: 0.35rem;
+  display: flex;
+  margin-right: 0.5rem;
 }
 
 .letter {
   display: inline-block;
   opacity: 0;
-  transform: translateY(30px);
-  transition: transform 0.2s ease-out;
+  transform: translateY(20px);
+  transition: 0.5s ease-out;
 }
 
 .letterMove {
-  animation: letterFade 0.6s forwards;
-  animation-delay: calc(var(--i) * 0.05s + var(--w) * 0.3s);
+  animation: letterMove 0.5s forwards;
+  animation-delay: calc(var(--i) * 0.05s + var(--w) * 0.1s);
 }
 
-@keyframes letterFade {
+@keyframes letterMove {
   to {
-    opacity: 1;
     transform: translateY(0);
+    opacity: 1;
   }
 }
 
+.animatedTextP {
+  margin-top: 1rem;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-weight: normal;
+}
+
+/* =========================
+   Кнопки
+   ========================= */
 .buttons {
+  margin-top: 2rem;
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-  justify-content: flex-start;
 }
 
-.registerBtn,
-.loginBtn {
-  padding: 0.9rem 1.8rem;
+.button {
+  padding: clamp(0.6rem, 1.5vw, 0.9rem) clamp(1.2rem, 3vw, 1.8rem);
   font-weight: bold;
   border-radius: 12px;
   text-decoration: none;
-  transition: 0.3s, transform 0.2s ease-out;
+  display: inline-block;
+  transition: 0.3s ease, transform 0.2s ease-out, box-shadow 0.2s ease-out;
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(12px);
-  border: 2px solid rgba(253, 107, 35, 0.5);
-  background: rgba(253, 107, 35, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.35);
   color: #fff;
-  box-shadow: 0 6px 20px rgba(253, 107, 35, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 
-.registerBtn:hover,
-.loginBtn:hover {
+.button:hover {
+  background: rgba(0, 0, 0, 0.45);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  transform: scale(1.05);
+}
+
+.button:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+.accent {
+  background: rgba(253, 107, 35, 0.2);
+  border-color: rgba(253, 107, 35, 0.5);
+  box-shadow: 0 4px 15px rgba(253, 107, 35, 0.3);
+  color: #fff;
+}
+
+.accent:hover {
   background: rgba(253, 107, 35, 0.4);
   border-color: rgba(253, 107, 35, 0.8);
-  box-shadow: 0 8px 25px rgba(253, 107, 35, 0.5);
-  transform: rotateX(-7deg) rotateY(7deg) scale(1.03);
+  box-shadow: 0 6px 20px rgba(253, 107, 35, 0.5);
 }
 
-.registerBtn {
+.glow {
   animation: glowPulse 2.5s infinite;
 }
 
@@ -162,6 +190,10 @@
       0 0 20px rgba(253, 107, 35, 0.4), 0 0 40px rgba(253, 107, 35, 0.2);
   }
 }
+
+/* =========================
+   Адаптивність
+   ========================= */
 @media (max-width: 1200px) {
   .overlay {
     padding: clamp(1rem, 2.5vw, 2.5rem);
@@ -174,21 +206,33 @@
   }
 }
 
+/* Фон праворуч, зрушення при зменшенні */
+@media (max-width: 1024px) {
+  .backgroundImage {
+    right: -60px;
+  }
+}
+
 @media (max-width: 768px) {
   .textSide {
-    padding-left: 3%;
+    max-width: 100%;
+    padding-left: 5%;
+    padding-right: 5%; /* доданий відступ справа */
   }
   .overlay {
-    padding: clamp(0.8rem, 2vw, 2rem);
+    padding: clamp(1rem, 2vw, 2rem);
   }
   .animatedText {
-    font-size: clamp(1rem, 2.5vw, 2rem);
+    font-size: clamp(2rem, 5vw, 3.2rem);
   }
   .animatedTextP {
-    font-size: clamp(0.8rem, 1.8vw, 1.1rem);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+  .backgroundImage {
+    top: -50px;
   }
   .buttons {
-    flex-direction: column;
+    flex-direction: row;
     gap: 1rem;
   }
 }
@@ -198,9 +242,13 @@
     padding: clamp(0.5rem, 1.5vw, 1.5rem);
   }
   .animatedText {
-    font-size: clamp(0.8rem, 4vw, 1.5rem);
+    font-size: clamp(1.5rem, 4vw, 2rem);
   }
   .animatedTextP {
-    font-size: clamp(0.7rem, 3vw, 1rem);
+    font-size: clamp(1rem, 3vw, 1.3rem);
+  }
+  .buttons {
+    flex-direction: column;
+    text-align: center;
   }
 }
