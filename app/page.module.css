@@ -1,88 +1,92 @@
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 24px;
-  font-family: Arial, sans-serif;
-  color: #1e293b;
-}
-
-.header {
+.centerContainer {
+  width: 100%;
+  height: 100vh;
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 24px;
+  background: #0d0d0d;
 }
 
-.logo {
-  font-size: 20px;
-  font-weight: bold;
-  color: #2563eb;
+.robotImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  filter: brightness(0.3); /* затемнюємо фон для читабельності тексту */
 }
 
-.addForm {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-  background: #f8fafc;
-  padding: 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-}
-
-.input {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-.button {
-  background-color: #2563eb;
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out;
-  font-size: 14px;
-}
-
-.button:hover {
-  background-color: #1d4ed8;
-}
-
-.rulesList {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.ruleCard {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.ruleTrigger {
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: #0f172a;
-}
-
-.ruleResponse {
-  color: #475569;
-  font-size: 14px;
-}
-
-.empty {
+.overlay {
+  position: relative;
+  z-index: 2;
+  color: #fff;
   text-align: center;
-  color: #94a3b8;
-  font-size: 14px;
-  grid-column: span 2;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+  max-width: 1000px;
+  padding: 2rem;
+}
+
+.overlay.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.overlay h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.overlay p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.registerBtn {
+  padding: 0.8rem 1.6rem;
+  background: #00d4ff;
+  color: #000;
+  font-weight: bold;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.registerBtn:hover {
+  background: #00bcd4;
+}
+
+.loginBtn {
+  padding: 0.8rem 1.6rem;
+  border: 2px solid #00d4ff;
+  background: transparent;
+  color: #00d4ff;
+  font-weight: bold;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.loginBtn:hover {
+  background: #00d4ff;
+  color: #000;
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .overlay h1 {
+    font-size: 2rem;
+  }
+  .overlay p {
+    font-size: 1rem;
+  }
 }
