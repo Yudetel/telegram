@@ -249,7 +249,7 @@
     font-size: clamp(1.5rem, 4vw, 2rem);
   }
   .animatedTextP {
-    font-size: clamp(1rem, 3vw, 1.3rem);
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
   }
   .buttons {
     flex-direction: column;
