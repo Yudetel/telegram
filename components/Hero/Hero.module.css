@@ -238,8 +238,11 @@
 }
 
 @media (max-width: 480px) {
+  .backgroundImage {
+    right: -140px;
+  }
   .overlay {
-    padding: clamp(0.5rem, 1.5vw, 1.5rem);
+    padding: clamp(1.5rem, 1.5vw, 1.5rem);
   }
   .animatedText {
     font-size: clamp(1.5rem, 4vw, 2rem);
