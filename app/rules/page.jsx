@@ -66,7 +66,7 @@ export default function Home() {
           <div className={styles.empty}>Правил ще немає — додай перше 👆</div>
         )}
       </div>
-      <img src="/back.jpg" alt="" />
+      <img src="/back4.jpg" alt="" />
     </main>
   );
 }
