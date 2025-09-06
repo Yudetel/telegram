@@ -1,41 +1,68 @@
 /* app/components/Benefits/Benefits.module.css */
+.benefitsWrapper {
+  width: 100%;
+  position: relative;
+}
+
+.benefitsHoverArea {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  /* без transform тут! */
+}
+/* 
 .benefits {
   position: relative;
-  padding: 56px 20px;
-  color: white;
-  overflow: hidden;
-  width: 100%; /* фон на всю ширину */
-}
+  width: 100%;
+} */
 
 .benefits::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("/back1.jpg") no-repeat;
-  background-position: left -300px top 0px;
+  background: url("/back2.jpg") no-repeat;
+  background-position: left -150px top 0px;
   z-index: -2;
 }
 
-.overlayContainer {
-  max-width: 1280px; /* вся робоча площина */
-  margin: 0 auto; /* центрування */
+.benefitsHoverArea {
+  width: 100%;
   display: flex;
-  justify-content: flex-end; /* Benefits вирівняні вправо */
+  justify-content: center;
+}
+
+.overlayContainer {
+  max-width: 1280px; /* робоча область */
+  width: 100%;
+  padding: 50px 20px; /* падінги всередині робочої області */
+  display: flex;
+  justify-content: flex-end; /* Benefits справа */
 }
 
 .overlay {
-  width: 832px; /* 65% від 1280px */
-  background: rgba(0, 0, 0, 0.55);
+  width: 65%; /* 832px */
+  /* background: rgba(0, 0, 0, 0.55); */
+  background: url("/back3.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 50px 40px;
-  box-shadow: -5px 0 25px rgba(253, 107, 35, 0.85);
+  box-shadow: -5px 0 25px rgba(253, 107, 35, 0.65);
+
   display: flex;
   flex-direction: column;
 
-  /* Додаємо плавність */
-  transition: transform 0.2s ease-out;
-  transform-style: preserve-3d; /* для 3D ефекту */
+  color: rgb(0, 0, 0);
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease-out;
+}
+
+/* Перевіримо, щоб всі внутрішні елементи теж були білими, якщо потрібно */
+.overlay h2,
+.overlay h3,
+.overlay p {
+  color: rgb(0, 0, 0);
 }
 
 .title {
@@ -55,7 +82,7 @@
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.75);
   border: 1px solid rgba(253, 107, 35, 0.25);
   border-radius: 14px;
   padding: 20px 15px;
@@ -66,7 +93,7 @@
 
 .card:hover {
   transform: translateY(-6px);
-  background: rgba(253, 107, 35, 0.1);
+  background: rgba(255, 255, 255, 0.75);
   border-color: rgba(253, 107, 35, 0.6);
   box-shadow: 0 0 20px rgba(253, 107, 35, 0.4);
 }

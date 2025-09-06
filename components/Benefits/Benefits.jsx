@@ -38,35 +38,42 @@ export default function Benefits() {
   ];
 
   return (
-    <section className={styles.benefits}>
-      <div className={styles.overlayContainer}>
-        <div
-          className={styles.overlay}
-          onMouseMove={(e) => {
-            const overlay = e.currentTarget;
-            const rect = overlay.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * 10; // градуси
-            const rotateY = ((x - centerX) / centerX) * 10; // градуси
-            overlay.style.transform = `perspective(800px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform =
-              "perspective(800px) rotateX(0deg) rotateY(0deg)";
-          }}
-        >
-          <h2 className={styles.title}>Чому саме ми?</h2>
-          <div className={styles.grid}>
-            {items.map((item, i) => (
-              <div key={i} className={styles.card}>
-                <div className={styles.icon}>{item.icon}</div>
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
+    <section className={styles.benefitsWrapper}>
+      <div
+        className={styles.benefitsHoverArea}
+        onMouseMove={(e) => {
+          const overlay = e.currentTarget.querySelector(`.${styles.overlay}`);
+          const rect = overlay.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * 10;
+          const rotateY = ((x - centerX) / centerX) * 10;
+          overlay.style.transform = `perspective(800px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
+          overlay.style.transition = "transform 0.1s ease-out";
+        }}
+        onMouseLeave={(e) => {
+          const overlay = e.currentTarget.querySelector(`.${styles.overlay}`);
+          overlay.style.transition = "transform 0.6s ease-out";
+          overlay.style.transform =
+            "perspective(800px) rotateX(0deg) rotateY(0deg)";
+        }}
+      >
+        <div className={styles.benefits}>
+          <div className={styles.overlayContainer}>
+            <div className={styles.overlay}>
+              <h2 className={styles.title}>Чому саме ми?</h2>
+              <div className={styles.grid}>
+                {items.map((item, i) => (
+                  <div key={i} className={styles.card}>
+                    <div className={styles.icon}>{item.icon}</div>
+                    <h3>{item.title}</h3>
+                    <p>{item.desc}</p>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>
