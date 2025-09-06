@@ -1,0 +1,56 @@
+.wave {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  line-height: 0;
+}
+.wave svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1px);
+  height: 120px;
+}
+.wave.flip {
+  transform: rotate(180deg);
+}
+
+.diagonal {
+  position: relative;
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(
+    to right,
+    rgba(253, 107, 35, 0.2),
+    rgba(253, 107, 35, 0.05)
+  );
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+.diagonal.flip {
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+.glowLine {
+  height: 24px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #fd6b23,
+    #fd6b23,
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: moveGlow 8s linear infinite;
+  box-shadow: 0 0 20px rgba(253, 107, 35, 0.7);
+  margin: 0px 0;
+}
+
+@keyframes moveGlow {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
